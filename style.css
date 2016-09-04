@@ -1,0 +1,55 @@
+
+#poll img{
+	width: 50%;
+}
+
+#poll{
+	text-align: center;
+	padding-bottom: 50px;
+}
+.page-header{
+	text-align: center;
+}
+
+.repub-color{
+	color: #FF5D40;
+}
+
+.dem-color{
+	color: #179EE0;
+}
+
+.roboto-reg{
+	font-family: 'Roboto', serif;
+}
+
+.roboto-bold{
+	font-family: 'Roboto', serif;
+	font-weight: 700;
+}
+
+#trump-poll-num{
+	padding-left, padding-bottom, padding-right: 20px;
+	font-size: 500%;
+}
+
+#clinton-poll-num{
+	padding-left, padding-bottom, padding-right: 20px;
+	font-size: 500%;
+}
+
+#trump h4, #clinton h4{
+	padding-top: 20px;
+}
+
+img{
+	-webkit-filter: grayscale(100%); /* Chrome, Safari, Opera */
+	filter: grayscale(100%);
+}
+
+#footer{
+	background-color: #f5f5f5;
+	padding-top:20px;
+	padding-bottom:10px;
+}
+

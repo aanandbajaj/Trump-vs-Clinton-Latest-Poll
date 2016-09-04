@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<!-- Meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>HuffPost Test</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700,900" rel="stylesheet">
+</head>
+
+<body>
+	<div class="container">
+		<div class="page-header">
+        	<h1 class="roboto-bold">Latest Trump vs. Clinton Poll</h1>
+        	<p class="lead roboto-reg"></p>
+      	</div>
+		<div class="row" id="poll">
+			<div class="col-md-6" id="trump">
+				<img src="images/trump.png">
+				<h4 class="lead roboto-reg">Donald Trump</h4>
+				<h1 class="repub-color roboto-bold" id="trump-poll-num"></h1>
+			</div>
+			<div class="col-md-6" id="clinton"> 
+				<img src="images/clinton.png">
+				<h4 class="lead roboto-reg">Hillary Clinton</h4>
+				<h1 class="dem-color roboto-bold" id="clinton-poll-num"></h1>
+			</div>
+		</div>
+	</div>
+
+	<div id="footer">
+      <div class="container">
+        <p class="muted credit">Made with <span class="glyphicon glyphicon-heart repub-color" aria-hidden="true"></span> by Aanand Bajaj</p>
+      </div>
+    </div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+	<!-- Latest compiled and minified JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+
+    <script type="text/javascript">
+
+        var API_SERVER = 'http://elections.huffingtonpost.com',
+            API_BASE = '/pollster/api/',
+            API_FILE = 'polls.json',
+            callback = '?callback=pollsterPoll',
+            params = '&state=US&topic=2016-president',
+            all_data,
+            repubValue,
+            demValue,
+            pollster,
+            date,
+            latest_data;
+
+        window.pollsterPoll = function(incoming_data) {
+            all_data = incoming_data;
+
+            //put latest poll into latest_data
+            latest_data = all_data[0];
+
+            //assign values to variables
+            repubValue = latest_data.questions[0].subpopulations[0].responses[1].value;
+            demValue = latest_data.questions[0].subpopulations[0].responses[0].value;
+            pollster = latest_data.pollster;
+            date = latest_data.end_date;
+
+            visualize();
+        };
+
+        $(document).ready(function() {
+            $.ajax({
+                url: API_SERVER + API_BASE + API_FILE + callback + params,
+                dataType: 'script',
+                type: 'GET',
+                cache: true
+            });
+        });
+
+        function visualize() {
+            console.log(latest_data)
+            $('#trump-poll-num').append(repubValue);
+            $('#clinton-poll-num').append(demValue);
+
+            $('.page-header p:first').append(pollster + "<br>" + date);
+
+        }
+    </script>
+</body>
+
+
+</html>
