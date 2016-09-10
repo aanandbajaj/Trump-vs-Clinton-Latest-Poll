@@ -6,8 +6,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
-    <title>HuffPost Test</title>
+    <title>Trump vs Clinton Latest Poll</title>
 
     <link rel="stylesheet" type="text/css" href="style.css">
 
@@ -21,30 +22,39 @@
 </head>
 
 <body>
-	<div class="container">
+	<div class="container" id="main">
 		<div class="page-header">
         	<h1 class="roboto-bold">Latest Trump vs. Clinton Poll</h1>
         	<p class="lead roboto-reg"></p>
       	</div>
 		<div class="row" id="poll">
-			<div class="col-md-6" id="trump">
-				<img src="images/trump.png">
-				<h4 class="lead roboto-reg">Donald Trump</h4>
-				<h1 class="repub-color roboto-bold" id="trump-poll-num"></h1>
+			<div id="trump">
+                <div class="col-md-6 col-xs-6" id="inner-trump">
+                    <img src="images/trump_red.png">
+                    <h4 class="lead roboto-reg">Donald Trump</h4>
+                    <h1 class="repub-color roboto-bold" id="trump-poll-num"></h1>                   
+                </div>
 			</div>
-			<div class="col-md-6" id="clinton"> 
-				<img src="images/clinton.png">
-				<h4 class="lead roboto-reg">Hillary Clinton</h4>
-				<h1 class="dem-color roboto-bold" id="clinton-poll-num"></h1>
+			<div id="clinton"> 
+                <div class="col-md-6 col-xs-6" id="inner-clinton">
+                    <img src="images/clinton_blue.png">
+                    <h4 class="lead roboto-reg">Hillary Clinton</h4>
+                    <h1 class="dem-color roboto-bold" id="clinton-poll-num"></h1>
+                </div>
 			</div>
+            <!-- <div id="poll-choose">
+                <div class="col-md-4 col-xs-6" id="inner-poll-choose">
+                    <h3 class="roboto-reg">Recent Polls</h3>              
+                </div>
+            </div> -->
 		</div>
-	</div>
 
-	<div id="footer">
-      <div class="container">
-        <p class="muted credit">Made with <span class="glyphicon glyphicon-heart repub-color" aria-hidden="true"></span> by Aanand Bajaj</p>
-      </div>
-    </div>
+	</div>
+        <div class="footer navbar-fixed-bottom" id="footer">
+            <div class="container">
+                <p class="muted credit">Made by Aanand Bajaj</p>
+            </div>
+        </div>
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
@@ -65,22 +75,32 @@
             demValue,
             pollster,
             date,
-            latest_data;
+            latest_data,
+            lastPolls;
+        
+        init();
 
+        function init(){
+            lastPolls = ["1","2","3","4","5","6","7"];
+            //document.getElementById('inner-poll-choose').appendChild(makeUL(lastPolls));
+        }
+
+        //Set "Latest poll" variables for showcase
         window.pollsterPoll = function(incoming_data) {
             all_data = incoming_data;
-
-            //put latest poll into latest_data
             latest_data = all_data[0];
+            setData(latest_data);
+        };
 
+        function setData(incoming_data){
             //assign values to variables
-            repubValue = latest_data.questions[0].subpopulations[0].responses[1].value;
-            demValue = latest_data.questions[0].subpopulations[0].responses[0].value;
-            pollster = latest_data.pollster;
-            date = latest_data.end_date;
+            repubValue = incoming_data.questions[0].subpopulations[0].responses[1].value;
+            demValue = incoming_data.questions[0].subpopulations[0].responses[0].value;
+            pollster = incoming_data.pollster;
+            date = incoming_data.end_date;
 
             visualize();
-        };
+        }
 
         $(document).ready(function() {
             $.ajax({
@@ -92,15 +112,34 @@
         });
 
         function visualize() {
-            console.log(latest_data)
+            console.log(all_data)
             $('#trump-poll-num').append(repubValue);
             $('#clinton-poll-num').append(demValue);
-
             $('.page-header p:first').append(pollster + "<br>" + date);
 
+
         }
+
+        // function makeUL(array){
+        //     var list = document.createElement('ul');
+
+        //     for (var i = 0; i < array.length; i++) {
+        //         var item = document.createElement('li');
+        //         var item2 = document.createElement('a');
+        //         item2.appendChild(document.createTextNode(array[i]));
+        //         list.appendChild(item);
+        //         item.appendChild(item2);
+        //     }
+
+        //     return list;
+        // }
+
+        // $('#inner-poll-choose').on('click', 'a', function(event) {
+        //     event.preventDefault();
+        //     console.log('anchor clicked');
+        // });
+
     </script>
 </body>
-
 
 </html>
